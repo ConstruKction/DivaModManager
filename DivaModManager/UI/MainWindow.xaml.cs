@@ -144,30 +144,6 @@ namespace DivaModManager
             var bitmap = new BitmapImage(new Uri("pack://application:,,,/DivaModManager;component/Assets/preview.png"));
             ImageBehavior.SetAnimatedSource(Preview, bitmap);
             ImageBehavior.SetAnimatedSource(PreviewBG, null);
-
-            GameBox.IsEnabled = false;
-            ModGrid.IsEnabled = false;
-            ConfigButton.IsEnabled = false;
-            LaunchButton.IsEnabled = false;
-            OpenModsButton.IsEnabled = false;
-            UpdateButton.IsEnabled = false;
-            LauncherOptionsBox.IsEnabled = false;
-            LoadoutBox.IsEnabled = false;
-            EditLoadoutsButton.IsEnabled = false;
-            App.Current.Dispatcher.Invoke(async () =>
-            {
-                Global.logger.WriteLine("Checking for mod updates...", LoggerType.Info);
-                await ModUpdater.CheckForUpdates(Global.config.Configs[Global.config.CurrentGame].ModsFolder, this);
-                Global.logger.WriteLine("Checking for Diva Mod Manager update...", LoggerType.Info);
-                if (await AutoUpdater.CheckForDMMUpdate(new CancellationTokenSource()))
-                    Close();
-                // Check for DML update only if its already setup
-                if (!String.IsNullOrEmpty(Global.config.Configs[Global.config.CurrentGame].ModLoaderVersion))
-                {
-                    Global.logger.WriteLine("Checking for DivaModLoader update...", LoggerType.Info);
-                    await Setup.CheckForDMLUpdate(new CancellationTokenSource());
-                }
-            });
         }
         private async void WindowLoaded(object sender, RoutedEventArgs e)
         {
